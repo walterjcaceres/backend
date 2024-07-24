@@ -1,0 +1,6 @@
+[
+        {"id":1, "title":"vaso", "description":"El mejor", "code":"Abc123", "price":200,"status": true, "stock":5,"category":"bazar","thumbnails":[]},
+        {"id":2, "title":"plato", "description":"El mejor", "code":"Abc123", "price":200,"status": true, "stock":5,"category":"bazar","thumbnails":[]},
+        {"id":3, "title":"cuchillo", "description":"El mejor", "code":"Abc123", "price":200,"status": true, "stock":5,"category":"bazar","thumbnails":[]},
+        {"id":4, "title":"tenedor", "description":"El mejor", "code":"Abc123", "price":200,"status": true, "stock":5,"category":"bazar","thumbnails":[]}
+    ]
