@@ -7,38 +7,25 @@ class ProductManager {
     constructor(path) {
         this.products = [];
         this.path = path;
+        this.cargarArchivo();
+
     }
 
-
-
-    async addProduct({ title, description, price, img, code, stock }) {
-
-        if (!title || !description || !price || !img || !code || !stock) {
-            console.log("Todos los campos son obligatorios");
-            return;
-        }
-
-        //2) Validacion: 
-        if (this.products.some(item => item.code === code)) {
-            console.log("El codigo debe ser unico.. o todos moriremos");
-            return;
-        }
-
-        //3) Crear el producto, pero que tenga el id autoincrementable. 
+    async addProduct({ title,description,code,price,stock,category,thumbnails }) {
+        
         const nuevoProducto = {
             id: ++ProductManager.ultId,
             title,
             description,
-            price,
-            img,
             code,
-            stock
+            price,
+            stock,
+            category,
+            thumbnails
         }
-
-        //4) Metemos el producto al array. 
+        
         this.products.push(nuevoProducto);
 
-        //5) Lo guardamos en el archivo: 
         await this.guardarArchivo(this.products);
     }
 
@@ -54,71 +41,79 @@ class ProductManager {
 
     async getProductById(id) {
         try {
-            const productos = await this.leerArchivo();
-            let productoBuscado = productos.find( producto => producto.id === parseInt(pid));
+            const arrayProductos = await this.leerArchivo();
+            const buscado = arrayProductos.find(producto => producto.id === id); 
 
-            if (productoBuscado) {
-                console.log("producto no encontrado"); 
-                return null; 
-            } else {
-                console.log("Producto encontrado"); 
-                return productoBuscado; 
-            }
+            return buscado || null;
         } catch (error) {
             console.log("Error al buscar por id", error); 
         }
     }
 
 
+
     //Método para actualizar productos: 
 
     async updateProduct(id, productoActualizado) {
         try {
-            const arrayProductos = await this.leerArchivo(); 
+            const productos = await this.leerArchivo(); 
 
-            const index = arrayProductos.findIndex( item => item.id === id); 
+            let productoBuscado = productos.findIndex( producto => producto.id === id);
+             if(productoBuscado>-1){
+            productos[productoBuscado]={id:id,...productoActualizado};
 
-            if(index !== -1) {
-                arrayProductos[index] = {...arrayProductos[index], ...productoActualizado} ; 
-                await this.guardarArchivo(arrayProductos); 
-                console.log("Producto actualizado"); 
+                await this.guardarArchivo(productos); 
+                return("Producto actualizado"); 
+
             } else {
-                console.log("No se encuentra el producto"); 
+                return("No se encuentra el producto"); 
             }
         } catch (error) {
-            console.log("Tenemos un error al actualizar productos"); 
+            console.log("Tenemos un error al actualizar productos",error); 
         }
     }
 
     async deleteProduct(id) {
         try {
-            const arrayProductos = await this.leerArchivo(); 
+            const productos = await this.leerArchivo();
 
-            const index = arrayProductos.findIndex( item => item.id === id); 
-
-            if(index !== -1) {
-                arrayProductos.splice(index, 1); 
-                await this.guardarArchivo(arrayProductos); 
-                console.log("Producto eliminado"); 
+            let productoBuscado = productos.findIndex( producto => producto.id === parseInt(id));
+            if(productoBuscado>-1){
+                productos.splice(productoBuscado,1);
+                await this.guardarArchivo(productos);
+                return("Producto eliminado");
             } else {
-                console.log("No se encuentra el producto"); 
-            }
+                return("Producto no encontrado")
+            }   
+              
         } catch (error) {
-            console.log("Tenemos un error al eliminar productos"); 
+            console.log("Tenemos un error al eliminar productos",error); 
         }
     }
+    
 
-    //Métodos auxiliares: 
-    async leerArchivo() {
-        const respuesta = await fs.readFile(this.path, "utf-8");
-        const arrayProductos = JSON.parse(respuesta);
-        return arrayProductos;
-    }
+        //Métodos auxiliares: 
+        async cargarArchivo() {
+            const respuesta = await fs.readFile(this.path, "utf-8");
+            const arrayProductos = JSON.parse(respuesta);
+            this.products=arrayProductos;
+
+            if(this.products.length>0){
+                ProductManager.ultId=Math.max(...this.products.map(product=>product.id))
+            }
+        }
+
+
+
+        async leerArchivo() {
+            const respuesta = await fs.readFile(this.path, "utf-8");
+            const arrayProductos = JSON.parse(respuesta);
+            return arrayProductos;
+        }
     
-    async guardarArchivo(arrayProductos) {
-        await fs.writeFile(this.path, JSON.stringify(arrayProductos, null, 2));
-    }
-    
+        async guardarArchivo(arrayProductos) {
+            await fs.writeFile(this.path, JSON.stringify(arrayProductos, null, 2));
+        }
 
 }
 

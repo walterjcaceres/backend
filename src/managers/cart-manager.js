@@ -49,6 +49,17 @@ class CartManager {
         return nuevoCarrito; 
     }
 
+    async getCarritos(){
+        try {
+            
+            return (this.carts);
+            
+        } catch (error) {
+            console.log("Error al obtener el carrito por id"); 
+            throw error; 
+        }
+    }
+
     //Retorne un carrito por id:
 
     async getCarritoById(carritoId) {

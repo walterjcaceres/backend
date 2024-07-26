@@ -6,7 +6,7 @@ const cartManager = new CartManager("./src/data/carts.json");
 
  
 
-//1) Ruta post que cree un carrillo nuevo.
+//1) Ruta post que cree un carrito nuevo.
 
 router.post("/", async (req, res) => {
     try {
@@ -18,7 +18,15 @@ router.post("/", async (req, res) => {
 })
 
 
-//2) Listamos los productos de determinado carrito: 
+router.get("/", async (req, res) => {
+
+    try {
+        const carrito = await cartManager.getCarritos(); 
+        res.json(carrito); 
+    } catch (error) {
+        res.status(500).send("Error al obtener los productos del carrito"); 
+    }
+})
 
 router.get("/:cid", async (req, res) => {
     let carritoId = parseInt(req.params.cid);
