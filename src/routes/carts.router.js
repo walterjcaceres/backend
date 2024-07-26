@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
         const nuevoCarrito = await cartManager.crearCarrito(); 
         res.json(nuevoCarrito);
     } catch (error) {
-        res.status(500).send("Error del servidor, vamos a re morir de antrax");
+        res.status(500).send("Error del servidor");
     }
 })
 
@@ -35,7 +35,7 @@ router.get("/:cid", async (req, res) => {
         const carrito = await cartManager.getCarritoById(carritoId); 
         res.json(carrito.products); 
     } catch (error) {
-        res.status(500).send("Error al obtener los productos del carrito, rata de dos patas!"); 
+        res.status(500).send("Error al obtener los productos del carrito"); 
     }
 })
 
@@ -50,7 +50,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
         const actualizado = await cartManager.agregarProductosAlCarrito(carritoId, productoId, quantity); 
         res.json(actualizado.products); 
     } catch (error) {
-        res.status(500).send("Error al agregar un producto, moriremos");
+        res.status(500).send("Error al agregar un producto");
     }
 })
 
