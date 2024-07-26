@@ -51,15 +51,5 @@
     "stock": 5,
     "category": "bazar",
     "thumbnails": []
-  },
-  {
-    "id": 8,
-    "title": "plato8",
-    "description": "El mejor",
-    "code": "Abc123",
-    "price": 200,
-    "stock": 5,
-    "category": "bazar",
-    "thumbnails": []
   }
 ]
