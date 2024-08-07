@@ -79,7 +79,7 @@ class CartManager {
 
     //Agregar productos al carrito: 
 
-    async agregarProductosAlCarrito(carritoId, productoId, quantity = 1) {
+    async agregarProductosAlCarrito(carritoId, productoId, quantity) {
         const carrito = await this.getCarritoById(carritoId); 
         const existeProducto = carrito.products.find(p => p.product === productoId);
 
@@ -91,6 +91,24 @@ class CartManager {
 
         await this.guardarCarritos();
         return carrito; 
+    }
+
+    async EliminarCarrito(carritoId){
+        try {
+            const carrito = await this.getCarritos();
+            let index = carrito.findIndex(carrito=>carrito.id=carritoId)
+            if(index>-1){
+                carrito.splice(index,1);
+                return ("Carrito eliminado")
+            } else {
+                return ("No se encontro el carrito")
+            }
+        } catch (error) {
+            console.log("Error al obtener el carrito por id"); 
+            throw error; 
+        }
+        
+        
     }
 
 }

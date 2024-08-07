@@ -1,54 +1,32 @@
 [
   {
     "id": 1,
-    "title": "plato10",
-    "description": "El peor",
-    "code": "Abc123",
-    "price": 200,
-    "stock": 5,
-    "category": "bazar",
+    "title": "cuchillo",
+    "description": "poco filo",
+    "code": "234",
+    "price": "1243",
+    "stock": "8",
+    "category": "cubiertos",
     "thumbnails": []
   },
   {
     "id": 2,
-    "title": "plato",
-    "description": "El mejor",
-    "code": "Abc123",
-    "price": 200,
-    "status": true,
-    "stock": 5,
-    "category": "bazar",
+    "title": "tenedor",
+    "description": "bueno",
+    "code": "436",
+    "price": "555",
+    "stock": "3",
+    "category": "cubiertos",
     "thumbnails": []
   },
   {
     "id": 3,
-    "title": "cuchillo",
-    "description": "El mejor",
-    "code": "Abc123",
-    "price": 200,
-    "status": true,
-    "stock": 5,
-    "category": "bazar",
-    "thumbnails": []
-  },
-  {
-    "id": 5,
-    "title": "plato5",
-    "description": "El peor",
-    "code": "Abc123",
-    "price": 200,
-    "stock": 5,
-    "category": "bazar",
-    "thumbnails": []
-  },
-  {
-    "id": 7,
-    "title": "plato7",
-    "description": "El mejor",
-    "code": "Abc123",
-    "price": 200,
-    "stock": 5,
-    "category": "bazar",
+    "title": "cuchara",
+    "description": "buena",
+    "code": "4364",
+    "price": "5553",
+    "stock": "32",
+    "category": "cubiertos",
     "thumbnails": []
   }
 ]

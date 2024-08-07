@@ -1,22 +1,13 @@
 [
   {
-    "id": 1,
-    "products": [
-      {
-        "product": "2",
-        "quantity": 500
-      },
-      {
-        "product": "23",
-        "quantity": 700
-      }
-    ]
-  },
-  {
     "id": 2,
     "products": [
       {
         "product": "23",
+        "quantity": 1400
+      },
+      {
+        "product": "230",
         "quantity": 700
       }
     ]

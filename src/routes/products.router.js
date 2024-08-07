@@ -6,7 +6,7 @@ const manager = new ProductManager("./src/data/productos.json");
 //Listar todos los productos: 
 
 router.get("/", async (req, res) => {
-    const arrayProductos = await manager.getProducts(); 
+    const arrayProductos = await manager.getProducts();
     res.send(arrayProductos); 
 })
 
