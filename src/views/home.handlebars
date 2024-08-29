@@ -1,7 +1,7 @@
 
 <div class="conteiner">
     <div class="d-flex flex-wrap m-3">
-        {{#each arrayProductos}}
+        {{#each producto}}
 
             <div class="card m-3" style="width: 18rem;">
                 {{!-- <img src="..." class="card-img-top" alt="..."> --}}
@@ -14,6 +14,15 @@
             </div>
 
         {{/each}}
+        {{#if hasPrevPage}}
+            <a href="/products?page={{prevPage}}">Anterior</a>
+        {{/if}}
+
+        <p>{{page}} de {{totalPages}}  </p>
+
+        {{#if hasNextPage}}
+            <a href="/products?page={{nextPage}}">Siguiente</a>
+        {{/if}}
     </div>
 </div>
 

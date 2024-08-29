@@ -6,11 +6,13 @@ const PUERTO = 8080;
 const viewsRouter = require("./routes/views.router.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js"); 
-const ProductManager = require("./managers/product-manager.js"); 
-const manager = new ProductManager("./src/data/productos.json");
+//const ProductManager = require("./dao/fs/product-manager.js"); 
+//const manager = new ProductManager("./dao/fs/productos.json");
 const {Server} = require("socket.io")
+const mongoose = require("mongoose")
 
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use('/products/', express.static('./src/public'));
 
 
@@ -63,3 +65,10 @@ io.on("connection", async (socket)=>{
     
     
 })
+
+
+//Conecto mongoose:
+
+mongoose.connect("mongodb+srv://walterjcaceres:coderhouse70110@cluster0.ufccc.mongodb.net/Proyecto?retryWrites=true&w=majority&appName=Cluster0")
+.then(()=>console.log("Conectado correctamente a la DB"))
+.catch((error)=>console.log("noo, todo mal, error",error))
