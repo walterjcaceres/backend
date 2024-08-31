@@ -1,5 +1,6 @@
 const cartModel = require("../models/carts.model.js")
 
+
 class CartManager {
     
 
@@ -34,12 +35,11 @@ class CartManager {
 
     async getCarritoById(carritoId) {
         try {
-            const carrito = await cartModel.findById(carritoId);
+            const carrito = await cartModel.findById(carritoId).populate('products.product');
 
             if( !carrito ) {
                 throw new Error("No existe un carrito con ese id"); 
             }
-
             return carrito; 
         } catch (error) {
             console.log("Error al obtener el carrito por id"); 
