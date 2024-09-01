@@ -8,7 +8,7 @@ class ProductManager {
             const existeProducto = await productModel.findOne({code:code})
             if(existeProducto){
                 console.log("El producto es unico, ya existe un producto con ese codigo")
-                return
+                return "El producto es unico, ya existe un producto con ese codigo";
             }
             const nuevoProducto = new productModel({
                 title,
@@ -23,6 +23,7 @@ class ProductManager {
 
 
             await nuevoProducto.save();
+            return nuevoProducto;
 
         } catch (error) {
             console.log("error al cargar un nuevo producto");
@@ -57,13 +58,15 @@ class ProductManager {
 
     async updateProduct(id, productoActualizado) {
         try {
-            const producto = await productModel.findByIdAndUpdate(id,productoActualizado); 
-
-            if(producto){
-                return("Producto actualizado"); 
-            } else {
-                return("No se encuentra el producto"); 
+            const existeProducto = await productModel.findOne({code:productoActualizado.code})
+            if(existeProducto){
+                if(existeProducto.id!==id){
+                return "El producto es unico, ya existe un producto con ese codigo";
+                }
             }
+
+            const producto = await productModel.findByIdAndUpdate(id,productoActualizado); 
+            return producto;
         } catch (error) {
             console.log("Tenemos un error al actualizar productos",error); 
         }
@@ -72,13 +75,7 @@ class ProductManager {
     async deleteProduct(id) {
         try {
             const producto = await productModel.findByIdAndDelete(id);
-
-            
-            if(producto){
-                return("Producto eliminado");
-            } else {
-                return("Producto no encontrado")
-            }   
+           return producto;
               
         } catch (error) {
             console.log("Tenemos un error al eliminar productos",error); 

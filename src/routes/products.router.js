@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router(); 
 const ProductManager = require("../dao/db/product-manager-db"); 
 const manager = new ProductManager();
-//const productoModel=require("../dao/models/productos.model.js");
+
 
 //Listar todos los productos: 
 
@@ -10,7 +10,6 @@ router.get("/", async (req, res) => {
     
     try {
         const arrayProductos = await manager.getProducts(); 
-        //const arrayProductos = await productoModel.find();
         res.send(arrayProductos); 
     } catch (error) {
         res.status(500).send("Error al obtener los productos")
@@ -22,10 +21,9 @@ router.get("/", async (req, res) => {
 router.get("/:pid", async (req, res) => {
     let pid = req.params.pid; 
     try {
-        const producto = await manager.getProductById(id); 
-        //const producto = await productoModel.findById(pid)
+        const producto = await manager.getProductById(pid); 
         if(!producto) {
-            res.send("Producto no encontrado"); 
+            res.status(404).send("Producto no encontrado"); 
         } else {
             res.status(200).send(producto); 
         }
@@ -39,13 +37,12 @@ router.post("/", async(req,res)=>{
    
     try {
         
-        if (!producto.title || !producto.description || !producto.price || !producto.code || !producto.stock) {
-            res.send("Todos los campos son obligatorios");
+        if (!producto.title || !producto.description || !producto.price || !producto.code || !producto.stock || !producto.code ||!producto.category) {
+            res.status(400).send("Todos los campos son obligatorios");
 
         } else {
                 const productoAñadido = await manager.addProduct(producto); 
-                //const productoAñadido = new productoModel(producto);
-                res.status(201).send("Producto añadido");
+                productoAñadido==="El producto es unico, ya existe un producto con ese codigo"?res.status(409).send(productoAñadido):res.status(201).send(productoAñadido);
             }
     } catch (error) {
         res.status(500).send("Error del servidor");
@@ -57,14 +54,17 @@ router.put("/:pid", async(req,res)=>{
     let pid = req.params.pid;
     let productoNuevo = req.body;
     try {
-        let respuesta = await manager.updateProduct(pid,productoNuevo); 
-        //let respuesta = await productoModel.findByIdAndUpdate(pid,productoNuevo);
-        if(respuesta){
-            res.status(201).send("Actualizado correctamente");
+        if (!productoNuevo.title || !productoNuevo.description || !productoNuevo.price || !productoNuevo.code || !productoNuevo.stock || !productoNuevo.code ||!productoNuevo.category) {
+            res.status(400).send("Todos los campos son obligatorios");
+
         } else {
-            res.status(404).send("Producto no encontrado");
+            let respuesta = await manager.updateProduct(pid,productoNuevo);
+           if(respuesta){
+                respuesta==="El producto es unico, ya existe un producto con ese codigo"?res.status(409).send(respuesta):res.status(201).send("Actualizado correctamente");
+            } else {
+                res.status(404).send("Producto no encontrado");
+            }
         }
-       
     } catch (error) {
         res.status(500).send("Error del servidor");
     }
@@ -75,9 +75,8 @@ router.delete("/:pid", async(req,res)=>{
     let pid = req.params.pid;
     try {
         let respuesta = await manager.deleteProduct(pid); 
-        //let respuesta = await productoModel.findByIdAndDelete(pid);
         if(respuesta){
-            res.status(200).send("Eliminado correctamente");
+            res.status(204).send("Eliminado correctamente");
         } else {
             res.status(404).send("Producto no encontrado");
         }

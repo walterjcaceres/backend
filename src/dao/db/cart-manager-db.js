@@ -15,7 +15,6 @@ class CartManager {
             await nuevoCarrito.save(); 
             return nuevoCarrito;
         } catch (error) {
-            console.log("Error al crear un nuevo carrito");
             return null;
         }
     }
@@ -35,12 +34,14 @@ class CartManager {
 
     async getCarritoById(carritoId) {
         try {
-            const carrito = await cartModel.findById(carritoId).populate('products.product');
-
-            if( !carrito ) {
-                throw new Error("No existe un carrito con ese id"); 
+            let carrito = await cartModel.findById(carritoId);
+            if(carrito) {
+            carrito = await cartModel.findById(carritoId).populate('products.product');
+                return carrito; 
+            } else {
+               return null;
             }
-            return carrito; 
+            
         } catch (error) {
             console.log("Error al obtener el carrito por id"); 
             throw error; 
@@ -66,6 +67,7 @@ class CartManager {
             return carrito;
         } else {
             console.log("No existe el carrito con ese ID")
+            return null;
         }
         } catch (error) {
             console.log("Error al actualizar el carrito por id"); 
@@ -95,6 +97,27 @@ class CartManager {
         }
     }
 
+    async actualizarCarritoConArray(carritoId,array){
+        console.log("1")
+    try {
+        const carrito = await cartModel.findById(carritoId)
+        console.log(carrito);
+    if(carrito){
+        
+        carrito.products=array;
+        carrito.markModified("products");
+        await carrito.save();
+        return carrito;
+        
+    } else {
+        return "No existe el carrito con ese ID";
+    }
+    } catch (error) {
+        console.log("Error al actualizar el carrito por id"); 
+        throw error; 
+    }
+}
+
     async EliminarCarrito(carritoId){
         try {
             const carrito = await cartModel.findByIdAndDelete(carritoId);
@@ -118,12 +141,15 @@ class CartManager {
                     carrito.products.splice(productoBuscado,1);
                     carrito.markModified("products");
                     await carrito.save();
+                    return carrito;
                 } else {
-                    console.log("No existe un producto cono ese ID en este carrito")
+                    console.log("No existe un producto con ese ID en este carrito")
+                    return "No se encuentra el producto";
                 }
-                return carrito;
+                
             } else {
                 console.log("No existe el carrito con ese ID")
+                return null;
             }
         } catch (error) {
             console.log("Error al eliminar el producto del carrito por id"); 

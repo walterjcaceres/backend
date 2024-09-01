@@ -11,7 +11,7 @@ const cartManager = new CartManager();
 router.post("/", async (req, res) => {
     try {
         const nuevoCarrito = await cartManager.crearCarrito(); 
-        res.json(nuevoCarrito);
+        res.status(201).json(nuevoCarrito);
     } catch (error) {
         res.status(500).send("Error del servidor");
     }
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 
     try {
         const carrito = await cartManager.getCarritos(); 
-        res.json(carrito); 
+        res.status(200).json(carrito); 
     } catch (error) {
         res.status(500).send("Error al obtener los carritos"); 
     }
@@ -33,7 +33,11 @@ router.get("/:cid", async (req, res) => {
 
     try {
         const carrito = await cartManager.getCarritoById(carritoId); 
-        res.json(carrito.products); 
+        if(carrito){
+            res.status(200).json(carrito.products); 
+        } else {
+            res.status(404).send("No se encuentra un carrito con ese ID");
+        }
     } catch (error) {
         res.status(500).send("Error al obtener los productos del carrito"); 
     }
@@ -48,7 +52,12 @@ router.post("/:cid/product/:pid", async (req, res) => {
 
     try {
         const actualizado = await cartManager.agregarProductosAlCarrito(carritoId, productoId, quantity); 
-        res.json(actualizado.products); 
+        if(actualizado){
+            res.status(201).json(actualizado.products); 
+        } else {
+            res.status(404).send("No se encuentra un carrito con ese ID");
+        }
+        
     } catch (error) {
         res.status(500).send("Error al agregar un producto");
     }
@@ -73,11 +82,25 @@ router.put("/:cid/product/:pid", async (req, res) => {
     }
 })
 
+router.put("/:cid", async (req, res) => {
+    let carritoId = req.params.cid;  
+    let products = req.body;
+    
+    try {
+        const respuesta = await cartManager.actualizarCarritoConArray(carritoId,products);
+        respuesta=="No existe el carrito con ese ID"?res.status(404).send(respuesta):res.status(201).send(respuesta)
+                    
+    } catch (error) {
+        res.status(500).send("Error al agregar un producto");
+    }
+})
+
+
 router.delete("/:cid", async (req,res)=>{
     try {
         let carritoId = req.params.cid;
         let respuesta = await cartManager.EliminarCarrito(carritoId);
-        res.send(respuesta)
+        res.status(204).send(respuesta);
     } catch (error) {
         res.status(500).send("Error al eliminar el carrito");
     }
@@ -89,9 +112,14 @@ router.delete("/:cid/product/:pid", async (req,res)=>{
         let carritoId = req.params.cid;
         let productoId = req.params.pid;
         let respuesta = await cartManager.EliminarProductoDelCarrito(carritoId,productoId);
-        res.send(respuesta)
+        if(respuesta){
+            respuesta==="No se encuentra el producto"?res.status(404).send(respuesta):res.status(200).send(respuesta);
+        } else {
+            res.status(404).send("No se encuentra un carrito con ese ID")
+        }
+        
     } catch (error) {
-        res.status(500).send("Error al eliminar el carrito");
+        res.status(500).send("Error al eliminar el producto del carrito por id");
     }
     
 })
