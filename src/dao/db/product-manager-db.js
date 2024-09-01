@@ -30,12 +30,13 @@ class ProductManager {
         }
     }
 
-    async getProducts(limit,page,sort) {
+    async getProducts(limit,page,sort,query) {
         try {
             console.log(limit);
             console.log(page);
             console.log(sort);
-            const arrayProductos = await productModel.paginate({},{limit,page,sort}); 
+            const filtro = query?{category:query}:{};
+            const arrayProductos = await productModel.paginate(filtro,{limit,page,sort}); 
             return arrayProductos;
         } catch (error) {
             console.log("Error al leer el archivo", error); 

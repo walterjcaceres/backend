@@ -9,6 +9,8 @@ router.get("/",async(req,res)=>{
     const page=req.query.page||1;
     const limit = req.query.limit||2;
     let sort = req.query.sort||null;
+    const query = req.query.query||null;
+
     if(sort==="asc"){
         sort={
             price:1
@@ -21,7 +23,7 @@ router.get("/",async(req,res)=>{
     }
     
     
-    const arrayProductos = await manager.getProducts(limit,page,sort);
+    const arrayProductos = await manager.getProducts(limit,page,sort,query);
     const resultado = arrayProductos.docs.map(item=>{
         const {...spread}=item.toObject();
         return spread;
