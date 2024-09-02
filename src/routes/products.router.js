@@ -7,12 +7,39 @@ const manager = new ProductManager();
 //Listar todos los productos: 
 
 router.get("/", async (req, res) => {
+    const page=req.query.page||1;
+    const limit = req.query.limit||10;
+    let sort = req.query.sort||null;
+    const query = req.query.query||null;
+    let objetosort;
+    if(sort==="asc"){
+        objetosort={
+            price:1
+        }
+    }
+    if(sort==="desc"){
+        objetosort={
+            price:-1
+        }
+    }
     
     try {
-        const arrayProductos = await manager.getProducts(); 
-        res.send(arrayProductos); 
+        const arrayProductos = await manager.getProducts(limit,page,objetosort,query); 
+        const respuesta = {
+            status:"success",
+            payload:arrayProductos.docs,
+            totalDocs:arrayProductos.totalDocs,
+            limit:arrayProductos.limit,
+            totalPages:arrayProductos.totalPages,
+            page:arrayProductos.page,
+            pagingCounter:arrayProductos.pagingCounter,
+            hasPrevPage:arrayProductos.hasPrevPage,
+            hasNextPage:arrayProductos.hasNextPage,
+            prevPage:arrayProductos.prevPage,
+            nextPage:arrayProductos.nextPage }
+        res.send(respuesta); 
     } catch (error) {
-        res.status(500).send("Error al obtener los productos")
+        res.status(500).send({status:"error"})
     }
 })
 
