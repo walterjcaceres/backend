@@ -15,13 +15,13 @@
 
         {{/each}}
         {{#if hasPrevPage}}
-            <a href="/products?page={{prevPage}}">Anterior</a>
+            <a href="/products?page={{prevPage}}&limit={{limit}}&sort={{sort}}&query={{query}}">Anterior</a>
         {{/if}}
 
         <p>{{page}} de {{totalPages}}  </p>
 
         {{#if hasNextPage}}
-            <a href="/products?page={{nextPage}}">Siguiente</a>
+            <a href="/products?page={{nextPage}}&limit={{limit}}&sort={{sort}}&query={{query}}">Siguiente</a>
         {{/if}}
     </div>
 </div>

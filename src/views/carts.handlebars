@@ -1,0 +1,22 @@
+
+<div class="conteiner">
+    <h3>carrito {{carritoId}}:</h3>
+    <div class="d-flex flex-wrap m-3">
+        {{#each carrito}}
+
+            <div class="card m-3" style="width: 18rem;">
+                {{!-- <img src="..." class="card-img-top" alt="..."> --}}
+                <div class="card-body">
+                    <h5 class="card-title">{{this.product.title}}</h5>
+                    <p class="card-text">{{this.product.description}}</p>
+                    <p class="card-text">${{this.product.price}}</p>
+                    <p class="card-text">Cantidad:{{this.quantity}}</p>
+                    
+                </div>
+            </div>
+
+        {{/each}}
+    
+    </div>
+    <a href="#" class="btn btn-primary m-3">Pagar Carrito</a>
+</div>

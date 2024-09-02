@@ -7,23 +7,23 @@ const manager = new ProductManager();
 
 router.get("/",async(req,res)=>{
     const page=req.query.page||1;
-    const limit = req.query.limit||2;
+    const limit = req.query.limit||10;
     let sort = req.query.sort||null;
     const query = req.query.query||null;
-
+    let objetosort;
     if(sort==="asc"){
-        sort={
+        objetosort={
             price:1
         }
     }
     if(sort==="desc"){
-        sort={
+        objetosort={
             price:-1
         }
     }
     
     
-    const arrayProductos = await manager.getProducts(limit,page,sort,query);
+    const arrayProductos = await manager.getProducts(limit,page,objetosort,query);
     const resultado = arrayProductos.docs.map(item=>{
         const {...spread}=item.toObject();
         return spread;
@@ -36,7 +36,10 @@ router.get("/",async(req,res)=>{
         prevPage:arrayProductos.prevPage,
         nextPage:arrayProductos.nextPage,
         page:arrayProductos.page,
-        totalPages:arrayProductos.totalPages
+        totalPages:arrayProductos.totalPages,
+        limit,
+        sort,
+        query
 
     })
 
