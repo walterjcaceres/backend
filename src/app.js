@@ -3,10 +3,15 @@ const express = require("express") ;
 const ExpressHandlebars = require("express-handlebars");
 const app = express();
 const PUERTO = 8080;
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
 const viewsRouter = require("./routes/views.router.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js"); 
+const viewsUserRouter = require("./routes/viewsUser.router.js")
+const usersRouter = require("./routes/users.router.js"); 
 const viewsCartsRouter = require("./routes/viewsCarts.router.js"); 
+const initializePassport = require("./config/passport.config.js")
 //const ProductManager = require("./dao/fs/product-manager.js"); 
 //const manager = new ProductManager("./dao/fs/productos.json");
 const {Server} = require("socket.io")
@@ -14,7 +19,10 @@ const mongoose = require("mongoose")
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
+app.use(passport.initialize());
 app.use('/products/', express.static('./src/public'));
+initializePassport();
 
 
 app.engine("handlebars",ExpressHandlebars.engine());
@@ -26,6 +34,8 @@ app.use("/api/products", productsRouter );
 app.use("/products", viewsRouter );
 app.use("/carts",viewsCartsRouter);
 app.use("/api/carts", cartsRouter); 
+app.use("/api/sessions",viewsUserRouter);
+app.use("/",usersRouter);
 
 
 
