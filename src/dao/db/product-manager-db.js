@@ -1,5 +1,6 @@
 const productModel = require("../models/productos.model.js")
 
+
 class ProductManager {
    
     async addProduct({ title,description,code,price,stock,category,thumbnails }) {

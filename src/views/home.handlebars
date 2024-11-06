@@ -9,7 +9,9 @@
                     <h5 class="card-title">{{this.title}}</h5>
                     <p class="card-text">{{this.description}}</p>
                     <p class="card-text">${{this.price}}</p>
-                    <a href="#" class="btn btn-primary">Agregar al carrito</a>
+                    <label for="quantity">Cantidad:</label>
+                    <input type="number" id="quantity-{{this._id}}" class="form-control mb-2">
+                    <a href="#" onclick=AddProductToCart('{{this._id}}','{{../carritoId}}',document.getElementById('quantity-{{this._id}}').value) class="btn btn-primary">Agregar al carrito</a>
                 </div>
             </div>
 
@@ -25,4 +27,6 @@
         {{/if}}
     </div>
 </div>
+
+<script src="./js/mainHome.js"></script>
 

@@ -7,6 +7,7 @@ class CartManager {
     //Primer consigna crear el carrito: 
 
     async crearCarrito(){
+        console.log("entra al carrito");
         try {
             const nuevoCarrito = new cartModel({
                 products: []
@@ -56,7 +57,7 @@ class CartManager {
         if(carrito){
             const existeProducto = carrito.products.find(p => p.product == productoId);
             if(existeProducto) {
-                existeProducto.quantity += quantity; 
+                existeProducto.quantity = existeProducto.quantity+quantity; 
             } else {
                 const arrayproductoId=[];
                 arrayproductoId.push(productoId);
