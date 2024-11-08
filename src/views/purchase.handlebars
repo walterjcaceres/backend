@@ -1,10 +1,39 @@
 <div class="conteiner">
     <h3>carrito {{carritoId}}:</h3>
-    <div class="d-flex flex-wrap m-3">
-        <button onclick=purchase('{{carritoId}}','{{email}}')>probar</button>
-    
-    </div>
-    
-</div>
+   
+        {{#if ticket}}
+            <h6>Su compra ha sido realizada con exito:</h6>
+            <div>
+                <p>Codigo de compra: {{ticket.code}}</p>
+                <p>Fecha de compra: {{ticket.purchase_datetime}}</p>
+                <p>Monto total: ${{ticket.amount}}</p>
+                <p>email a donde se le enviara la factura: {{ticket.purchaser}}</p>
+            </div>
+        {{/if}}
+        {{#if carrito}}
+        <h6>Los siguientes items no fueron procesados, ya que no hay stock disponible:</h6>
+        <div class="d-flex flex-wrap m-3">
+        {{#each carrito}}
 
+            <div class="card m-3" style="width: 18rem;">
+                {{!-- <img src="..." class="card-img-top" alt="..."> --}}
+                <div class="card-body">
+                    <h5 class="card-title">{{this.product.title}}</h5>
+                    <p class="card-text">{{this.product.description}}</p>
+                    <p class="card-text">${{this.product.price}}</p>
+                    <p class="card-text">Cantidad:{{this.quantity}}</p>
+                    
+                    
+                </div>
+            </div>
+
+        {{/each}}
+        </div>
+        {{/if}}
+ 
+
+    
+
+</div>
+ <div id="purchaseResult"></div>
 <script src="./js/mainPurchase.js"></script>

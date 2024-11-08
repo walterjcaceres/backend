@@ -20,12 +20,12 @@ class CartService {
         return carrito;
     }
 
-    async getAmount(carritoId){
-        const carrito = await CartRepository.findById(carritoId);
-        console.log(carrito.products[0].product.price);
-        const amount = carrito.products.reduce((acumulador, elemento) => acumulador + elemento.product.price*elemento.quantity, 0);
-        return amount;
-    }
+    // async getAmount(carritoId){
+    //     const carrito = await CartRepository.findById(carritoId);
+    //     //console.log(carrito.products[0].product.price);
+    //     const amount = carrito.products.reduce((acumulador, elemento) => acumulador + elemento.product.price*elemento.quantity, 0);
+    //     return amount;
+    // }
 
 
     async AddProductsToCart(carritoId, productoId, quantity) {
