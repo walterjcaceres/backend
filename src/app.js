@@ -1,5 +1,4 @@
 const express = require("express") ;
-//import { ExpressHandlebars } from "express-handlebars";
 const ExpressHandlebars = require("express-handlebars");
 const app = express();
 const PUERTO = 8080;
@@ -13,8 +12,6 @@ const usersRouter = require("./routes/users.router.js");
 const viewsCartsRouter = require("./routes/viewsCarts.router.js"); 
 const initializePassport = require("./config/passport.config.js");
 const ProductServices = require('./services/product.service.js');
-//const ProductManager = require("./dao/fs/product-manager.js"); 
-//const manager = new ProductManager("./dao/fs/productos.json");
 const {Server} = require("socket.io")
 const mongoose = require("mongoose")
 

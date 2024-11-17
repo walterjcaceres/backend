@@ -45,8 +45,7 @@ class ViewsProductController {
     }
 
     async getRealTime(req,res){
-        // const arrayProductos = await ProductServices.getProducts();
-        // res.render("realTimeProducts",{arrayProductos})
+
 
         const page=req.query.page||1;
         const limit = req.query.limit||10;

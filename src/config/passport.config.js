@@ -4,7 +4,7 @@
 
 const passport = require ("passport");
 const jwt = require ("passport-jwt"); 
-//Guarda! Cuidado con lo que importan. 
+
 
 const JWTStrategy = jwt.Strategy; 
 const ExtractJwt = jwt.ExtractJwt; 

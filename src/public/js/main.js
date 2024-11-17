@@ -18,10 +18,6 @@ botonAdd.addEventListener('click', (event) => {
     socket.emit("agregar", productoNuevo)
 })
 
-// const eliminarItem = async (id) => {
-//     await manager.deleteProduct(id);
-// };
-
 
 const socket = io();
 
@@ -41,8 +37,6 @@ socket.on("array", (data) => {
                 <p class="card-text">${element.description}</p>
                 <p class="card-text">$${element.price}</p>
                 <p class="card-text">Stock: ${element.stock}</p>
-
- 
                              
             </div>`
         const botonEliminar = document.createElement('button');
@@ -60,8 +54,5 @@ socket.on("array", (data) => {
         card.append(botonEliminar);
         contenedorProductos.append(card);
     });
-
-
-
 
 })

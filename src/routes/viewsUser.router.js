@@ -16,11 +16,9 @@ router.get("/current", passport.authenticate("current",{session:false}),(req,res
     const user=req.user
     const userDTO = new UserDTO(user);
     res.render("bienvenido",{
-        //first_name:userDTO.first_name,
-        //last_name:userDTO.last_name,
+
         email:userDTO.email,
-        //age:usuarioEncontrado.age,
-        //cart:usuarioEncontrado.cart,
+
         role:userDTO.role});
 })
 
